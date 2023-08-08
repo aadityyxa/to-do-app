@@ -1,11 +1,16 @@
+import {addTaskForm, contentHeading} from '../components.js'; 
 
+const addTasks = document.querySelector('.add-tasks'); 
 export function inbox() {
-    const content = document.querySelector('.content')
-    const contentHeading = document.querySelector('.content-heading'); 
-    contentHeading.textContent = 'Inbox'; 
+
+    // contentHeading.textContent = 'Inbox'; 
     
-    
+//     addTasks.addEventListener('click', function() {
+//         // addTaskForm(); 
 
 
+
+//     });
+// }
 }
 
