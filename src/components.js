@@ -55,7 +55,7 @@ function addProjectForm() {
         emptyElement(projectList); 
         const newProject = new Page(projectName.value, []); 
         projects.push(newProject);
-        localStorage.setItem('projects', JSON.stringify(projects)); 
+        // localStorage.setItem('projects', JSON.stringify(projects)); 
         // console.log(projects); 
         projectForm.style.display = 'none'; 
         addProjects.style.display = "flex"; 
@@ -71,7 +71,7 @@ function addProjectForm() {
 
 function renderProjectList() {
     
-    console.log(JSON.parse(localStorage.getItem('projects'))); 
+    // console.log(JSON.parse(localStorage.getItem('projects'))); 
     const projectList = document.querySelector('.projects-list'); 
     for(let project of projects) {
         const projectCard = document.createElement('li'); 
