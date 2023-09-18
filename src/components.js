@@ -1,11 +1,22 @@
-localStorage.getItem('projects'); 
-localStorage.getItem('inbox'); 
+sessionStorage.getItem('projects'); 
+sessionStorage.getItem('inbox'); 
+sessionStorage.removeItem('projects');
 const contentHeading = document.querySelector('.content-heading');
 let addTasks = document.querySelector('.add-tasks');
-const localProjects = JSON.parse(localStorage.getItem('projects'));
-const projects = [...localProjects]; 
-const localInbox = JSON.parse(localStorage.getItem('inbox')); 
-const inboxTaskArray = [...localInbox];
+const sessionProjects = JSON.parse(sessionStorage.getItem('projects'));
+const projects = []; 
+if(sessionProjects !== null) {
+    for(let i = 0; i < sessionProjects.length; i++) {
+        projects.push(sessionProjects[i]); 
+    }
+}
+const inboxTaskArray = []; 
+const sessionInbox = JSON.parse(sessionStorage.getItem('inbox')); 
+if(sessionInbox !== null) {
+    for(let i = 0; i <  sessionInbox.length; i++) {
+        inboxTaskArray.push(sessionInbox[i]);
+    }
+}
 const inboxPage = document.querySelector('#inbox'); 
 const projectList = document.querySelector('.projects-list'); 
 
@@ -59,8 +70,8 @@ function addProjectForm() {
         emptyElement(projectList); 
         const newProject = new Page(projectName.value, []); 
         projects.push(newProject);
-        localStorage.removeItem('projects'); 
-        localStorage.setItem('projects', JSON.stringify(projects)); 
+        sessionStorage.removeItem('projects'); 
+        sessionStorage.setItem('projects', JSON.stringify(projects)); 
         projectForm.style.display = 'none'; 
         addProjects.style.display = "flex"; 
         renderProjectList(); 
@@ -161,13 +172,13 @@ function addTaskForm(array) {
         addTasks.style.display = "flex"; 
         if(array === inboxTaskArray) {
             addTaskToLibrary(inboxTaskArray, newTask); 
-            localStorage.removeItem('inbox'); 
-            localStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
+            sessionStorage.removeItem('inbox'); 
+            sessionStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
 
         }else {
             inboxTaskArray.push(newTask); 
-            localStorage.removeItem('inbox'); 
-            localStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
+            sessionStorage.removeItem('inbox'); 
+            sessionStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
             addTaskToLibrary(array, newTask); 
             removeTaskFromDOM(array); 
         }
@@ -176,17 +187,17 @@ function addTaskForm(array) {
 
 function addTaskToLibrary(array, task) {
     array.push(task); 
-    localStorage.removeItem('projects'); 
-    localStorage.setItem(`projects`, JSON.stringify(projects));
+    sessionStorage.removeItem('projects'); 
+    sessionStorage.setItem(`projects`, JSON.stringify(projects));
     renderArray(array); 
 }
 
 function removeTaskFromArray(array1, index) {
     array1.splice(index, 1); 
-    localStorage.removeItem('projects'); 
-    localStorage.removeItem('inbox'); 
-    localStorage.setItem('projects', JSON.stringify(projects)); 
-    localStorage.setItem('inbox', JSON.stringify(inboxTaskArray)); 
+    sessionStorage.removeItem('projects'); 
+    sessionStorage.removeItem('inbox'); 
+    sessionStorage.setItem('projects', JSON.stringify(projects)); 
+    sessionStorage.setItem('inbox', JSON.stringify(inboxTaskArray)); 
 
 }
 
