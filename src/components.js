@@ -3,10 +3,8 @@ localStorage.getItem('inbox');
 const contentHeading = document.querySelector('.content-heading');
 let addTasks = document.querySelector('.add-tasks');
 const localProjects = JSON.parse(localStorage.getItem('projects'));
-console.log('projects', localProjects); 
 const projects = [...localProjects]; 
 const localInbox = JSON.parse(localStorage.getItem('inbox')); 
-console.log('inbox', localInbox); 
 const inboxTaskArray = [...localInbox];
 const inboxPage = document.querySelector('#inbox'); 
 const projectList = document.querySelector('.projects-list'); 
@@ -63,7 +61,6 @@ function addProjectForm() {
         projects.push(newProject);
         localStorage.removeItem('projects'); 
         localStorage.setItem('projects', JSON.stringify(projects)); 
-        // console.log(projects); 
         projectForm.style.display = 'none'; 
         addProjects.style.display = "flex"; 
         renderProjectList(); 
@@ -78,7 +75,6 @@ function addProjectForm() {
 
 function renderProjectList() {
     
-    // console.log(JSON.parse(localStorage.getItem('projects'))); 
     const projectList = document.querySelector('.projects-list'); 
     for(let project of projects) {
         const projectCard = document.createElement('li'); 
@@ -87,7 +83,6 @@ function renderProjectList() {
         projectCard.textContent = `${project.name}`;
         projectList.appendChild(projectCard); 
         projectCard.addEventListener('click', function() {
-            // console.log(projectCard.getAttribute('data-key')); 
             pageLoader(projectCard.getAttribute('data-key')); 
         })
         inboxPage.addEventListener('click', function() {
@@ -99,13 +94,10 @@ function renderProjectList() {
 
 function pageLoader(index) {
     const contentGrid = document.querySelector('.content-grid'); 
-    console.log(JSON.parse(localStorage.getItem('projects')))
-    // const projects = JSON.parse(localStorage.getItem('projects')); 
     emptyElement(projectList); 
     renderProjectList();
     emptyElement(contentGrid);
     if(index) {
-        // console.log(projects[index].array); 
         renderArray(projects[index].array); 
     }else {
         renderArray(inboxTaskArray); 
@@ -116,8 +108,6 @@ function pageLoader(index) {
     if(index) {
         contentHeading.textContent = projects[index].name; 
         newAddTasks.addEventListener('click', function() {
-            // console.log('reached'); 
-            // console.log(projects[index].array); 
             addTaskForm(projects[index].array); 
         })
         renderArray(projects[index].array); 
@@ -169,16 +159,12 @@ function addTaskForm(array) {
         
         taskForm.style.display = "none";             
         addTasks.style.display = "flex"; 
-        // addTaskToLibrary(inboxTaskArray, newTask); 
-        // removeTaskFromDOM(inboxTaskArray)
         if(array === inboxTaskArray) {
-            // console.log('array is inboxtaskarray'); 
             addTaskToLibrary(inboxTaskArray, newTask); 
             localStorage.removeItem('inbox'); 
             localStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
 
         }else {
-            // console.log('array is project array'); 
             inboxTaskArray.push(newTask); 
             localStorage.removeItem('inbox'); 
             localStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
@@ -206,7 +192,6 @@ function removeTaskFromArray(array1, index) {
 
 function removeTaskFromDOM(array) {
     const radios = document.querySelectorAll('.complete-task');
-    // console.log(radios); 
 
     radios.forEach((radio) => radio.addEventListener('click', function() {
         const radios = document.querySelectorAll('.complete-task'); 
@@ -237,7 +222,6 @@ function renderArray(array) {
         statusRadio.setAttribute('data-key', `${array.indexOf(item)}`);
         statusRadio.addEventListener('click', function() {
             removeTaskFromArray(array, array.indexOf(item)); 
-            // contentGrid.removeChild(taskDisplay); 
             renderArray(array);           
         })   
         contentGrid.appendChild(taskDisplay); 
