@@ -1,7 +1,13 @@
+localStorage.getItem('projects'); 
+localStorage.getItem('inbox'); 
 const contentHeading = document.querySelector('.content-heading');
 let addTasks = document.querySelector('.add-tasks');
-const projects = []; 
-const inboxTaskArray = [];
+const localProjects = JSON.parse(localStorage.getItem('projects'));
+console.log('projects', localProjects); 
+const projects = [...localProjects]; 
+const localInbox = JSON.parse(localStorage.getItem('inbox')); 
+console.log('inbox', localInbox); 
+const inboxTaskArray = [...localInbox];
 const inboxPage = document.querySelector('#inbox'); 
 const projectList = document.querySelector('.projects-list'); 
 
@@ -55,7 +61,8 @@ function addProjectForm() {
         emptyElement(projectList); 
         const newProject = new Page(projectName.value, []); 
         projects.push(newProject);
-        // localStorage.setItem('projects', JSON.stringify(projects)); 
+        localStorage.removeItem('projects'); 
+        localStorage.setItem('projects', JSON.stringify(projects)); 
         // console.log(projects); 
         projectForm.style.display = 'none'; 
         addProjects.style.display = "flex"; 
@@ -167,11 +174,13 @@ function addTaskForm(array) {
         if(array === inboxTaskArray) {
             // console.log('array is inboxtaskarray'); 
             addTaskToLibrary(inboxTaskArray, newTask); 
+            localStorage.removeItem('inbox'); 
             localStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
 
         }else {
             // console.log('array is project array'); 
             inboxTaskArray.push(newTask); 
+            localStorage.removeItem('inbox'); 
             localStorage.setItem('inbox', JSON.stringify(inboxTaskArray));
             addTaskToLibrary(array, newTask); 
             removeTaskFromDOM(array); 
@@ -181,13 +190,17 @@ function addTaskForm(array) {
 
 function addTaskToLibrary(array, task) {
     array.push(task); 
+    localStorage.removeItem('projects'); 
     localStorage.setItem(`projects`, JSON.stringify(projects));
     renderArray(array); 
 }
 
-function removeTaskFromArray(array, index) {
-    array.splice(index, 1); 
-    localStorage.setItem(`${array}`, JSON.stringify(array)); 
+function removeTaskFromArray(array1, index) {
+    array1.splice(index, 1); 
+    localStorage.removeItem('projects'); 
+    localStorage.removeItem('inbox'); 
+    localStorage.setItem('projects', JSON.stringify(projects)); 
+    localStorage.setItem('inbox', JSON.stringify(inboxTaskArray)); 
 
 }
 
@@ -234,6 +247,6 @@ function renderArray(array) {
         taskDisplay.appendChild(taskDisplayRightSide); 
 
     }
-}
+} 
 
 export {renderArray, addTaskForm, contentHeading, removeTaskFromDOM, addProjectForm, pageLoader}; 
